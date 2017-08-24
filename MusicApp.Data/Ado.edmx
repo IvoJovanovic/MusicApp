@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MusicAppContext.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Authors">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar(max)" />
+          <Property Name="Pass" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Songs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SName" Type="nvarchar(max)" />
+          <Property Name="Duration" Type="time" Precision="7" />
+          <Property Name="AuthorId" Type="int" />
+        </EntityType>
+        <Association Name="FK__Songs__AuthorId__25869641">
+          <End Role="Authors" Type="Self.Authors" Multiplicity="0..1" />
+          <End Role="Songs" Type="Self.Songs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Authors">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Songs">
+              <PropertyRef Name="AuthorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MusicAppContextStoreContainer">
+          <EntitySet Name="Authors" EntityType="Self.Authors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Songs" EntityType="Self.Songs" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Songs__AuthorId__25869641" Association="Self.FK__Songs__AuthorId__25869641">
+            <End Role="Authors" EntitySet="Authors" />
+            <End Role="Songs" EntitySet="Songs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MusicAppContext" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Author">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Pass" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Songs" Relationship="Self.FK__Songs__AuthorId__25869641" FromRole="Authors" ToRole="Songs" />
+        </EntityType>
+        <EntityType Name="Song">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Duration" Type="Time" Precision="7" />
+          <Property Name="AuthorId" Type="Int32" />
+          <NavigationProperty Name="Author" Relationship="Self.FK__Songs__AuthorId__25869641" FromRole="Songs" ToRole="Authors" />
+        </EntityType>
+        <Association Name="FK__Songs__AuthorId__25869641">
+          <End Role="Authors" Type="Self.Author" Multiplicity="0..1" />
+          <End Role="Songs" Type="Self.Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Authors">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Songs">
+              <PropertyRef Name="AuthorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MusicAppDb" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Authors" EntityType="Self.Author" />
+          <EntitySet Name="Songs" EntityType="Self.Song" />
+          <AssociationSet Name="FK__Songs__AuthorId__25869641" Association="Self.FK__Songs__AuthorId__25869641">
+            <End Role="Authors" EntitySet="Authors" />
+            <End Role="Songs" EntitySet="Songs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MusicAppContextStoreContainer" CdmEntityContainer="MusicAppDb">
+          <EntitySetMapping Name="Authors">
+            <EntityTypeMapping TypeName="MusicAppContext.Author">
+              <MappingFragment StoreEntitySet="Authors">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Pass" ColumnName="Pass" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Songs">
+            <EntityTypeMapping TypeName="MusicAppContext.Song">
+              <MappingFragment StoreEntitySet="Songs">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SName" ColumnName="SName" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="AuthorId" ColumnName="AuthorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
